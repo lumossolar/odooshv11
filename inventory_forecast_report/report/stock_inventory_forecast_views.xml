@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_stock_inventory_forecast_report_tree" model="ir.ui.view">
+        <field name="name">Stock Value At Date</field>
+        <field name="model">stock.inventory.forecast</field>
+        <field name="arch" type="xml">
+            <tree string="Stock Value At Date" create="0" delete="0">
+                <field name="product_id"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="date"/>
+                <field name="quantity" sum="# of Products "/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_stock_inventory_forecast_report_pivot" model="ir.ui.view">
+        <field name="name">stock.inventory.forecast.value.pivot</field>
+        <field name="model">stock.inventory.forecast</field>
+        <field name="arch" type="xml">
+            <pivot string="Stock Value At Date">
+                <field name="product_id" type="row"/>
+                <field name="quantity" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+    <record id="view_stock_inventory_forecast_report_search" model="ir.ui.view">
+        <field name="name">stock.inventory.forecast.report.search</field>
+        <field name="model">stock.inventory.forecast</field>
+        <field name="arch" type="xml">
+            <search string="Stock Value At Date">
+                <field name="product_id"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <group expand="1" string="Group By">
+                    <filter string="Product" context="{'group_by':'product_id'}" name='group_by_product'/>
+                    <filter string="Company" context="{'group_by':'company_id'}" groups="base.group_multi_company"/>
+                 </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_stock_inventory_forecast" model="ir.actions.act_window">
+        <field name="name">Stock Inventory Forecast Report</field>
+        <field name="res_model">stock.inventory.forecast</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,pivot</field>
+    </record>
+
+    <menuitem id="menu_action_stock_inventory_forecast" action="action_stock_inventory_forecast" parent="stock.menu_warehouse_report" sequence="10" groups="base.group_no_one"/>
+
+</odoo>
