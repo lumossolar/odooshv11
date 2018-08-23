@@ -6,10 +6,11 @@
         <field name="arch" type="xml">
             <tree string="Stock Value At Date" create="0" delete="0">
                 <field name="product_id"/>
-                <!-- <field name="source"/> -->
+                <field name="source"/>
                 <field name="company_id" groups="base.group_multi_company"/>
                 <field name="date"/>
                 <field name="quantity" sum="# of Products "/>
+                <field name="cumulative_quantity" sum="# of Total "/>
             </tree>
         </field>
     </record>
@@ -45,6 +46,6 @@
         <field name="context">{'search_default_group_by_product':1}</field>
     </record>
 
-    <menuitem id="menu_action_stock_inventory_forecast" action="action_stock_inventory_forecast" parent="stock.menu_warehouse_report" sequence="10" groups="base.group_no_one"/>
+    <menuitem id="menu_action_stock_inventory_forecast" action="action_stock_inventory_forecast" parent="stock.menu_warehouse_report" sequence="10" />
 
 </odoo>
