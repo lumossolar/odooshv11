@@ -14,6 +14,7 @@ Stock Inventory Forecast Report
     'category': 'Custom Dev',
     'data': [
         'security/ir.model.access.csv',
+        'views/product_view.xml',
         'report/stock_inventory_forecast_views.xml',
     ],
     'installable': True,
