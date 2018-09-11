@@ -15,6 +15,7 @@ Stock Inventory Forecast Report
     'data': [
         'security/ir.model.access.csv',
         'report/stock_inventory_forecast_views.xml',
+        'views/product_view.xml',
     ],
     'installable': True,
     'auto_install': True,
