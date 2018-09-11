@@ -16,6 +16,7 @@ class StockInventoryForecast(models.Model):
     quantity = fields.Float('Quantity On Hand')
     date = fields.Datetime('Operation Date')
     source = fields.Char('SOURCE')
+    # cumulative_quantity = fields.Float('Total Quantity')
 
     @api.model_cr
     def init(self):
@@ -26,7 +27,8 @@ class StockInventoryForecast(models.Model):
                    company_id,
                    product_template_id,
                    product_id,
-                   SUM(quantity) AS quantity,
+                   ROUND(SUM(quantity)) AS quantity,
+                   -- ROUND(sum(sum(quantity))) OVER (PARTITION BY product_id ORDER BY date) AS cumulative_quantity,
                    date, SOURCE as source
             FROM (
                     (SELECT MIN(id) AS id,
