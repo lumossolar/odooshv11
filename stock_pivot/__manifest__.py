@@ -11,11 +11,11 @@ This module modify stock pivot view.
     'category': 'Custom',
     'website': 'https://www.flexsin.com',
     'images' : [],
-    'depends' : ['stock','web','product','sale','purchase'],
+    'depends' : ['stock','product','sale','purchase'],
     'data': [
         'views/stock_pivot_view.xml',
         'wizard/total_forecast_report_wizard_view.xml',
-
+        'security/ir.model.access.csv',
     ],
     'demo': [],
     'qweb': [

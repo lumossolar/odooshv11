@@ -27,15 +27,12 @@ class TotalStcokReportForecast(models.Model):
         for p in p_ids:
             prod_id = p[0]
             qty_available = product_obj.browse(prod_id).qty_available or 0.00
-            total_qty = 0.00
-
             for d in dw_list:
                 e = d + timedelta(days=7)
                 dst = d.strftime("%Y-%m-%d")
                 d_list = [a.strftime("%Y-%m-%d") for a in rrule(DAILY, dtstart=d, until=e)]
                 tot_qty = 0.00
                 for dt in d_list:
-                    d_qty = 0.00
                     # cr.execute("SELECT quant.qty AS quantity FROM stock_quant as quant JOIN stock_quant_move_rel ON stock_quant_move_rel.quant_id = quant.id JOIN stock_move ON stock_move.id = stock_quant_move_rel.move_id LEFT JOIN  stock_production_lot ON stock_production_lot.id = quant.lot_id JOIN stock_location dest_location ON stock_move.location_dest_id = dest_location.id JOIN stock_location source_location ON stock_move.location_id = source_location.id JOIN product_product ON product_product.id = stock_move.product_id JOIN product_template ON product_template.id = product_product.product_tmpl_id WHERE quant.qty > 0 AND stock_move.state = \"done\" AND dest_location.usage in (\"internal\", \"transit\") AND (not (source_location.company_id is null and dest_location.company_id is null) or\n    source_location.company_id != dest_location.company_id or source_location.usage not in (\"internal\", \"transit\"))"
                     #
                     # q = """
