@@ -27,7 +27,7 @@ PivotView.include({
 
         for (i = 0; i < headers.length; i++) {
             $row = $('<tr>');
-            if(i ==1){
+            if(i ==1 &&  this.model=='total.stock.report.forecast'){
                 $row.append('<th rowspan="1" colspan="1" title="" class="" data-original-title="Date" aria-describedby="tooltip471321"></th>');
             }
             for (j = 0; j < headers[i].length; j++) {
