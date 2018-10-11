@@ -35,40 +35,6 @@ class TotalStcokReportForecast(models.Model):
                 d_list = [a.strftime("%Y-%m-%d") for a in rrule(DAILY, dtstart=d, until=e)]
                 tot_qty = 0.00
                 for dt in d_list:
-                    # cr.execute("SELECT quant.qty AS quantity FROM stock_quant as quant JOIN stock_quant_move_rel ON stock_quant_move_rel.quant_id = quant.id JOIN stock_move ON stock_move.id = stock_quant_move_rel.move_id LEFT JOIN  stock_production_lot ON stock_production_lot.id = quant.lot_id JOIN stock_location dest_location ON stock_move.location_dest_id = dest_location.id JOIN stock_location source_location ON stock_move.location_id = source_location.id JOIN product_product ON product_product.id = stock_move.product_id JOIN product_template ON product_template.id = product_product.product_tmpl_id WHERE quant.qty > 0 AND stock_move.state = \"done\" AND dest_location.usage in (\"internal\", \"transit\") AND (not (source_location.company_id is null and dest_location.company_id is null) or\n    source_location.company_id != dest_location.company_id or source_location.usage not in (\"internal\", \"transit\"))"
-                    #
-                    # q = """
-                    #            SELECT
-                    #                sum(quant.qty) AS quantity, date,
-                    # COALESCE(SUM(price_unit_on_quant * quantity) / NULLIF(SUM(quantity), 0), 0) as price_unit_on_quant,
-                    # source,
-                    # string_agg(DISTINCT serial_number, ', ' ORDER BY serial_number) AS serial_number
-                    #            FROM
-                    #                stock_quant as quant JOIN stock_quant_move_rel ON stock_quant_move_rel.quant_id = quant.id JOIN
-                    #     stock_move ON stock_move.id = stock_quant_move_rel.move_id LEFT JOIN
-                    #     stock_production_lot ON stock_production_lot.id = quant.lot_id JOIN
-                    #     stock_location dest_location ON stock_move.location_dest_id = dest_location.id JOIN
-                    #     stock_location source_location ON stock_move.location_id = source_location.id JOIN
-                    #     product_product ON product_product.id = stock_move.product_id
-                    # JOIN
-                    #     product_template ON product_template.id = product_product.product_tmpl_id
-                    #            WHERE
-                    #                 quant.qty>0 AND stock_move.state = 'done' AND dest_location.usage in ('internal', 'transit')
-                    #                AND quant.product_id = %s
-                    #                AND (
-                    #                     not (source_location.company_id is null and dest_location.company_id is null) or
-                    #                     source_location.company_id != dest_location.company_id or
-                    #                     source_location.usage not in ('internal', 'transit'))
-                    #            """
-
-                    # self.env.cr.execute(q, (prod_id))
-
-                    # q_ids = cr.fetchone()
-                    # quantity_on_hand = [x if x != None else 0 for x in q_ids]
-
-                    # cr.execute("""SELECT sum(q.qty) from stock_quant as q where product_id = %s AND to_char(q.in_date, 'YYYY-MM-DD')=%s""" % (prod_id, str(dt)))
-                    # q_ids = cr.fetchall()
-                    # qty_available = [x if x != None else 0 for x in q_ids]
 
                     query = """
                                               SELECT
@@ -77,9 +43,9 @@ class TotalStcokReportForecast(models.Model):
                                                   sale_order_line sl
                                                   JOIN sale_order s ON sl.order_id=s.id
                                               WHERE
-                                                  s.state IN ('sale')
+                                                  s.state IN ('draft','sent')
                                                   AND sl.product_id = %s
-                                                  AND to_char(s.confirmation_date, 'YYYY-MM-DD')=%s
+                                                  AND to_char(s.date_order, 'YYYY-MM-DD')=%s
                                               """
                     self.env.cr.execute(query, (prod_id, dt))
                     sl_ids = cr.fetchone()
@@ -92,9 +58,9 @@ class TotalStcokReportForecast(models.Model):
                                                  sale_order_line sl
                                                  JOIN sale_order s ON sl.order_id=s.id
                                              WHERE
-                                                 s.state IN ('draft')
+                                                 s.state IN ('sale')
                                                  AND sl.product_id = %s
-                                                 AND to_char(s.date_order, 'YYYY-MM-DD')=%s
+                                                 AND to_char(s.confirmation_date, 'YYYY-MM-DD')=%s
                                              """
                     self.env.cr.execute(query1, (prod_id, dt))
                     sl_d_ids = cr.fetchone()
@@ -107,7 +73,7 @@ class TotalStcokReportForecast(models.Model):
                                                  purchase_order_line pl
                                                  JOIN purchase_order p ON pl.order_id=p.id
                                              WHERE
-                                                 p.state IN ('draft')
+                                                 p.state not IN ('cancel')
                                                  AND pl.product_id = %s
                                                  AND to_char(p.date_order, 'YYYY-MM-DD')=%s
                                              """
@@ -159,9 +125,9 @@ class TotalStcokReportForecast(models.Model):
                                                   sale_order_line sl
                                                   JOIN sale_order s ON sl.order_id=s.id
                                               WHERE
-                                                  s.state IN ('sale')
+                                                   s.state IN ('draft','sent')
                                                   AND sl.product_id = %s
-                                                  AND to_char(s.confirmation_date, 'YYYY-MM-DD')=%s
+                                                  AND to_char(s.date_order, 'YYYY-MM-DD')=%s
                                               """
                     self.env.cr.execute(query, (prod_id, dt))
                     sl_ids = cr.fetchone()
@@ -174,9 +140,9 @@ class TotalStcokReportForecast(models.Model):
                                                  sale_order_line sl
                                                  JOIN sale_order s ON sl.order_id=s.id
                                              WHERE
-                                                 s.state IN ('draft')
+                                                 s.state IN ('sale')
                                                  AND sl.product_id = %s
-                                                 AND to_char(s.date_order, 'YYYY-MM-DD')=%s
+                                                 AND to_char(s.confirmation_date, 'YYYY-MM-DD')=%s
                                              """
                     self.env.cr.execute(query1, (prod_id, dt))
                     sl_d_ids = cr.fetchone()
@@ -189,7 +155,7 @@ class TotalStcokReportForecast(models.Model):
                                                  purchase_order_line pl
                                                  JOIN purchase_order p ON pl.order_id=p.id
                                              WHERE
-                                                 p.state IN ('draft')
+                                                 p.state not IN ('cancel')
                                                  AND pl.product_id = %s
                                                  AND to_char(p.date_order, 'YYYY-MM-DD')=%s
                                              """
