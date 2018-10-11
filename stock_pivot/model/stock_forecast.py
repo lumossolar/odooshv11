@@ -16,7 +16,9 @@ class TotalStcokReportForecast(models.Model):
     def do_open(self):
         cr = self.env.cr
         self.env.cr.execute("""DELETE FROM total_stock_report_forecast;""")
-        cr.execute('SELECT id FROM product_product')
+        is_forecast = 't'
+        # cr.execute('SELECT id FROM product_product')
+        cr.execute('select p.id from product_template as pt JOIN product_product  p on  p.product_tmpl_id = pt.id where pt.is_forecast = %s ',(is_forecast,))
         p_ids = cr.fetchall()
         # a = datetime.strptime(datetime.now().strftime('%Y-%m-%d'), "%Y-%m-%d")
         today = datetime.now().date()
@@ -198,6 +200,11 @@ class TotalStcokReportForecast(models.Model):
                     row['quantity'] = qty_available
 
         return result
+
+class product_template(models.Model):
+    _inherit = "product.template"
+
+    is_forecast = fields.Boolean('Is Forecast')
 
 
 

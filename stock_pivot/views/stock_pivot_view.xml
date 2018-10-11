@@ -110,5 +110,38 @@
 
         <menuitem id="menu_stock_forecast_report" name="Stock Forecast Report" groups="stock.group_stock_manager" parent="stock.menu_warehouse_report"  action="stock_forecast_report_pivot"/>
 
+
+
+        <record id="product_templ_form_view_forecast_inherit" model="ir.ui.view">
+            <field name="name">product.template.form.inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='options']" position="replace">
+                    <div name="options" groups="base.group_user">
+                        <div>
+                            <field name="sale_ok"/>
+                            <label for="sale_ok"/>
+                        </div>
+                        <div>
+                            <field name="purchase_ok"/>
+                            <label for="purchase_ok"/>
+                        </div>
+                          <div>
+                            <field name="is_forecast"/>
+                            <label for="is_forecast"/>
+                        </div>
+                    </div>
+                </xpath>
+
+
+
+            </field>
+        </record>
+
+
+
+
+
     </data>
 </openerp>

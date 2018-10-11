@@ -14,7 +14,6 @@ This module modify stock pivot view.
     'depends' : ['stock','product','sale','purchase'],
     'data': [
         'views/stock_pivot_view.xml',
-        'wizard/total_forecast_report_wizard_view.xml',
         'security/ir.model.access.csv',
     ],
     'demo': [],
