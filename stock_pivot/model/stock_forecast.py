@@ -81,7 +81,7 @@ class TotalStcokReportForecast(models.Model):
                     pl_ids = cr.fetchone()
                     p_qty = [x if x != None else 0 for x in pl_ids]
 
-                    d_qty = s_qty[0] + sd_qty[0] + p_qty[0]
+                    d_qty = p_qty[0] - ( s_qty[0] + sd_qty[0] )
                     tot_qty += d_qty
 
                 qty_available += tot_qty
