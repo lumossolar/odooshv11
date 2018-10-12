@@ -49,8 +49,18 @@ PivotView.include({
                     $cell.data('id', cell.id);
                 }
                 if (cell.measure) {
+                      if (this.model=='total.stock.report.forecast'){
+                          if(i== 2 && j ==0){
+                                     var txt = "Current Stock";
+                                }else{
+
+                                    var txt = "Forecast Week";
+                                 }
+                      }else{
+                        var txt = this.measures[cell.measure].string;
+                      }
                     $cell.addClass('o_pivot_measure_row text-muted')
-                        .text(this.measures[cell.measure].string);
+                        .text(txt);
                     $cell.data('id', cell.id).data('measure', cell.measure);
                     if (cell.id === this.sorted_column.id && cell.measure === this.sorted_column.measure) {
                         $cell.addClass('o_pivot_measure_row_sorted_' + this.sorted_column.order);

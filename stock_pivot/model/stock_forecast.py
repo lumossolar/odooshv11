@@ -75,7 +75,7 @@ class TotalStcokReportForecast(models.Model):
                                              WHERE
                                                  p.state not IN ('cancel')
                                                  AND pl.product_id = %s
-                                                 AND to_char(p.date_order, 'YYYY-MM-DD')=%s
+                                                 AND to_char(p.date_plannned, 'YYYY-MM-DD')=%s
                                              """
                     self.env.cr.execute(query2, (prod_id, dt))
                     pl_ids = cr.fetchone()
@@ -117,52 +117,6 @@ class TotalStcokReportForecast(models.Model):
                     dt = datetime.strptime(datetime.now().strftime('%Y-%m-%d'), "%Y-%m-%d")
                     dt = dt.strftime("%Y-%m-%d")
                     qty_available  = p_obj.browse(row.get('product_id')[0]).qty_available
-
-                    query = """
-                                              SELECT
-                                                  sum(sl.product_uom_qty) * .30
-                                              FROM
-                                                  sale_order_line sl
-                                                  JOIN sale_order s ON sl.order_id=s.id
-                                              WHERE
-                                                   s.state IN ('draft','sent')
-                                                  AND sl.product_id = %s
-                                                  AND to_char(s.date_order, 'YYYY-MM-DD')=%s
-                                              """
-                    self.env.cr.execute(query, (prod_id, dt))
-                    sl_ids = cr.fetchone()
-                    s_qty = [x if x != None else 0 for x in sl_ids]
-
-                    query1 = """
-                                             SELECT
-                                                 sum(sl.product_uom_qty)
-                                             FROM
-                                                 sale_order_line sl
-                                                 JOIN sale_order s ON sl.order_id=s.id
-                                             WHERE
-                                                 s.state IN ('sale')
-                                                 AND sl.product_id = %s
-                                                 AND to_char(s.confirmation_date, 'YYYY-MM-DD')=%s
-                                             """
-                    self.env.cr.execute(query1, (prod_id, dt))
-                    sl_d_ids = cr.fetchone()
-                    sd_qty = [x if x != None else 0 for x in sl_d_ids]
-
-                    query2 = """
-                                             SELECT
-                                                 sum(pl.product_qty)
-                                             FROM
-                                                 purchase_order_line pl
-                                                 JOIN purchase_order p ON pl.order_id=p.id
-                                             WHERE
-                                                 p.state not IN ('cancel')
-                                                 AND pl.product_id = %s
-                                                 AND to_char(p.date_order, 'YYYY-MM-DD')=%s
-                                             """
-                    self.env.cr.execute(query2, (prod_id, dt))
-                    pl_ids = cr.fetchone()
-                    p_qty = [x if x != None else 0 for x in pl_ids]
-                    qty_available = qty_available + s_qty[0] + sd_qty[0] + p_qty[0]
                     row['quantity'] = qty_available
 
         return result

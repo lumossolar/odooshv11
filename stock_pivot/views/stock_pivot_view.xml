@@ -108,9 +108,9 @@
             <field name="model">total.stock.report.forecast</field>
         </record>
 
-        <menuitem id="menu_stock_forecast_report" name="Stock Forecast Report" groups="stock.group_stock_manager" parent="stock.menu_warehouse_report"  action="stock_forecast_report_pivot"/>
+        <menuitem id="menu_stock_forecast_report" name="Stock Forecast" groups="stock.group_stock_user" parent="stock.menu_stock_root" />
 
-
+        <menuitem id="submenu_stock_forecast_report" name="Stock Forecast Report" groups="stock.group_stock_user" parent="menu_stock_forecast_report"  action="stock_forecast_report_pivot"/>
 
         <record id="product_templ_form_view_forecast_inherit" model="ir.ui.view">
             <field name="name">product.template.form.inherit</field>
@@ -133,15 +133,8 @@
                         </div>
                     </div>
                 </xpath>
-
-
-
             </field>
         </record>
-
-
-
-
 
     </data>
 </openerp>
