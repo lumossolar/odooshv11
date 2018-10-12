@@ -75,7 +75,7 @@ class TotalStcokReportForecast(models.Model):
                                              WHERE
                                                  p.state not IN ('cancel')
                                                  AND pl.product_id = %s
-                                                 AND to_char(p.date_plannned, 'YYYY-MM-DD')=%s
+                                                 AND to_char(pl.date_planned, 'YYYY-MM-DD')=%s
                                              """
                     self.env.cr.execute(query2, (prod_id, dt))
                     pl_ids = cr.fetchone()
