@@ -51,10 +51,10 @@ PivotView.include({
                 if (cell.measure) {
                       if (this.model=='total.stock.report.forecast'){
                           if(i== 2 && j ==0){
-                                     var txt = "Current Stock";
+                                     var txt = "QOH";
                                 }else{
 
-                                    var txt = "Forecast Week";
+                                    var txt = "Stock Forecast";
                                  }
                       }else{
                         var txt = this.measures[cell.measure].string;
