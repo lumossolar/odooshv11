@@ -73,37 +73,6 @@ PivotView.include({
                 }
             }
 
-//            if  (this.model=='total.stock.report.forecast' && i==1 ){
-//                     var values = [];
-//                     jQuery.each($row, function(i, item) {
-//                            console.log("++$row+++",$row);
-//                            values = values + 'td' + (i + 1) + ':' + item.innerHTML + '<br/>';
-//                            console.log("+++++",i,"item..",item);
-//                        });
-//                     console.log("++After",$row);
-//                 }
-
-//           if  (this.model=='total.stock.report.forecast' && i==1 ){
-//                     console.log("before.++.",$row[0]);
-//
-//
-//                      jQuery.each($row[0], function(i, item) {
-//                            console.log("++$row+++",$row);
-//                            values = values + 'td' + (i + 1) + ':' + item.innerHTML + '<br/>';
-//                            console.log("+++++",i,"item..",item);
-//                        });
-//
-//
-//
-//                     var  $cell1 = '';
-//                     $cell1 = $('<th>')
-//                        .text('')
-//                        .attr('rowspan', 1)
-//                        .attr('colspan',1 );
-//                      $row.prepend($cell1);
-//                 }
-
-
         $thead.append($row);
         }
     },
@@ -137,15 +106,44 @@ PivotView.include({
                         }
             for (j = 0; j < length; j++) {
                 value = formats.format_value(rows[i].values[j], {type: measure_types[j % nbr_measures], widget: widgets[j % nbr_measures]});
-                if (value==0 && i==0 && this.model=='total.stock.report.forecast'){
-                    var value = '';
-                  }
-                $cell = $('<td>')
+                if (this.model=='total.stock.report.forecast'){
+                    if (value < 0){
+                      $cell = $('<td style="color:red">')
                             .data('id', rows[i].id)
                             .data('col_id', rows[i].col_ids[Math.floor(j / nbr_measures)])
                             .toggleClass('o_empty', !value)
                             .text(value)
                             .addClass('o_pivot_cell_value text-right');
+                      }
+                    else if (value == 0 && i==0){
+                       var value = '';
+                       $cell = $('<td>')
+                            .data('id', rows[i].id)
+                            .data('col_id', rows[i].col_ids[Math.floor(j / nbr_measures)])
+                            .toggleClass('o_empty', !value)
+                            .text(value)
+                            .addClass('o_pivot_cell_value text-right');
+                     }else{
+                       $cell = $('<td>')
+                            .data('id', rows[i].id)
+                            .data('col_id', rows[i].col_ids[Math.floor(j / nbr_measures)])
+                            .toggleClass('o_empty', !value)
+                            .text(value)
+                             .addClass('o_pivot_cell_value text-right');
+                       }
+                }else{
+                     $cell = $('<td>')
+                                .data('id', rows[i].id)
+                                .data('col_id', rows[i].col_ids[Math.floor(j / nbr_measures)])
+                                .toggleClass('o_empty', !value)
+                                .text(value)
+                                .addClass('o_pivot_cell_value text-right');
+                }
+
+//                if (value==0 && i==0 && this.model=='total.stock.report.forecast'){
+//                    var value = '';
+//                  }
+
                 if (((j >= length - this.active_measures.length) && display_total) || i === 0){
                     $cell.css('font-weight', 'bold');
                 }
