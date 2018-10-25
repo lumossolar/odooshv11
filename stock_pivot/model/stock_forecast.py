@@ -32,6 +32,7 @@ class TotalStcokReportForecast(models.Model):
                 dr = pd.date_range(start=d, periods=7)
                 d_start = dr[0].strftime("%Y-%m-%d")
                 d_end = dr[-1].strftime("%Y-%m-%d")
+
                 query = """
                           SELECT
                               sum(sl.product_uom_qty) * .30
@@ -46,6 +47,7 @@ class TotalStcokReportForecast(models.Model):
                 self.env.cr.execute(query, (prod_id, d_start, d_end))
                 sl_ids = cr.fetchone()
                 s_qty = [x if x != None else 0 for x in sl_ids]
+
                 query1 = """
                              SELECT
                                  sum(sl.product_uom_qty)
@@ -60,6 +62,7 @@ class TotalStcokReportForecast(models.Model):
                 self.env.cr.execute(query1, (prod_id, d_start, d_end))
                 sl_d_ids = cr.fetchone()
                 sd_qty = [x if x != None else 0 for x in sl_d_ids]
+                
                 query2 = """
                              SELECT
                                  sum(pl.product_qty)
