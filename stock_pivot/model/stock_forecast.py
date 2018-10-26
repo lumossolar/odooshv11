@@ -3,7 +3,12 @@
 from odoo import api, fields, models, tools
 from datetime import datetime, timedelta
 from dateutil.rrule import rrule, DAILY,WEEKLY
-import pandas as pd
+
+try:
+    import pandas as pd
+except ImportError:
+    pass
+
 
 class TotalStcokReportForecast(models.Model):
     _name = "total.stock.report.forecast"
@@ -62,7 +67,7 @@ class TotalStcokReportForecast(models.Model):
                 self.env.cr.execute(query1, (prod_id, d_start, d_end))
                 sl_d_ids = cr.fetchone()
                 sd_qty = [x if x != None else 0 for x in sl_d_ids]
-                
+
                 query2 = """
                              SELECT
                                  sum(pl.product_qty)
