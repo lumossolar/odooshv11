@@ -2,7 +2,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 {
     'name' : 'Modified Pivot View in ERP Application',
-    'version' : '1.2',
+    'version' : '1.3',
     'summary': 'Pivot View',
     'sequence': 30,
     'description': """
