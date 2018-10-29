@@ -2,7 +2,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 {
     'name' : 'Modified Pivot View in ERP Application',
-    'version' : '1.5',
+    'version' : '1.6',
     'summary': 'Pivot View',
     'sequence': 30,
     'description': """
@@ -12,8 +12,7 @@ This module modify stock pivot view.
     'website': 'https://www.flexsin.com',
     'images' : [],
     'depends' : ['stock','product','sale','purchase'],
-    'external_dependencies': {
-        'python': ['pandas']
+    'external_dependencies': {'python': ['pandas']
     },
 
     'data': [
