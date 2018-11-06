@@ -70,22 +70,6 @@ class TotalStcokReportForecast(models.Model):
                 sl_d_ids = cr.fetchone()
                 sd_qty = [x if x != None else 0 for x in sl_d_ids]
 
-                n_query1 = """
-                                            SELECT
-                                                s.name
-                                            FROM
-                                                sale_order_line sl
-                                                JOIN sale_order s ON sl.order_id=s.id
-                                            WHERE
-                                                s.state IN ('sale')
-                                                AND sl.product_id = %s
-                                                AND (to_char(s.confirmation_date, 'YYYY-MM-DD') BETWEEN %s AND %s)
-                                            """
-                self.env.cr.execute(n_query1, (prod_id, d_start, d_end))
-                n_sl_d_ids = cr.fetchall()
-                n_sd = [str(x[0]) if x != None else 0 for x in n_sl_d_ids]
-                print("+++++++++=",n_sd)
-
                 query2 = """
                              SELECT
                                  sum(pl.product_qty)
@@ -102,9 +86,9 @@ class TotalStcokReportForecast(models.Model):
                 p_qty = [x if x != None else 0 for x in pl_ids]
                 d_qty = p_qty[0] - (s_qty[0] + sd_qty[0])
                 qty_available = round(qty_available + d_qty)
-                cr.execute("""INSERT INTO total_stock_report_forecast (s_order,date, product_id, quantity)
-                                                                       VALUES (%s, %s, %s,%s)""",
-                           (n_sd,d_start, prod_id, qty_available))
+                cr.execute("""INSERT INTO total_stock_report_forecast (date, product_id, quantity)
+                                                                       VALUES (%s, %s, %s)""",
+                           (d_start, prod_id, qty_available))
 
         ir_model_data = self.env['ir.model.data']
         stock_forecast_pivot = ir_model_data.get_object_reference('stock_pivot', 'view_forecast_all_pivot')[1]
@@ -128,6 +112,7 @@ class TotalStcokReportForecast(models.Model):
                 row['quantity'] = ''
             else:
                 if len(row.get('__domain')) == 1:
+                    print("+++++++++++++",result)
                     cr = self.env.cr
                     prod_id = row.get('product_id')[0]
                     dt = datetime.strptime(datetime.now().strftime('%Y-%m-%d'), "%Y-%m-%d")

@@ -17,6 +17,7 @@
                     <field name="product_id" type="row"/>
                     <field name="date"  interval="week" type="col"/>
                     <field name="quantity" type="measure" widget="char"/>
+                    <field name="s_order" type="measure" widget="char"/>
                 </pivot>
             </field>
         </record>

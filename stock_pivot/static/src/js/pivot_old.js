@@ -17,7 +17,7 @@ PivotView.include({
 
 // START
 
-  draw_headers: function ($thead, headers) {
+    draw_headers: function ($thead, headers) {
         var self = this,
             i, j, cell, $row, $cell,$cell1;
 
@@ -25,23 +25,15 @@ PivotView.include({
             return self.fields[gb.split(':')[0]].string;
         });
 
-        //console.log(headers.length);
         for (i = 0; i < headers.length; i++) {
             $row = $('<tr>');
-            /*if((i ==1 || i== 2)  &&  this.model=='total.stock.report.forecast'){
+            if(i ==1 &&  this.model=='total.stock.report.forecast'){
                 $row.append('<th rowspan="1" colspan="1" title="" class="" data-original-title="Date" aria-describedby="tooltip471321"></th>');
-            }*/
-
-            var innerHeaderLength = headers[i].length;
-            if(i == 2){
-                innerHeaderLength = headers[i].length-1;
             }
-
-
-            for (j = 0; j < innerHeaderLength; j++) {
+            for (j = 0; j < headers[i].length; j++) {
                 cell = headers[i][j];
                 if(this.model=='total.stock.report.forecast' && i== 0 && j ==1){
-                    var colspan = 21;
+                    var colspan = 14;
                 }else{
                     var colspan = cell.width;
                 }
@@ -57,17 +49,16 @@ PivotView.include({
                     $cell.data('id', cell.id);
                 }
                 if (cell.measure) {
-//                      if (this.model=='total.stock.report.forecast'){
-//                          if(i== 2 && j ==0){
-//                                     var txt = "QOH";
-//                                }else{
-//
-//                                    var txt = "Stock Forecast";
-//                                 }
-//                      }else{
-//                        var txt = this.measures[cell.measure].string;
-//                      }
-                    var txt = this.measures[cell.measure].string;
+                      if (this.model=='total.stock.report.forecast'){
+                          if(i== 2 && j ==0){
+                                     var txt = "QOH";
+                                }else{
+
+                                    var txt = "Stock Forecast";
+                                 }
+                      }else{
+                        var txt = this.measures[cell.measure].string;
+                      }
                     $cell.addClass('o_pivot_measure_row text-muted')
                         .text(txt);
                     $cell.data('id', cell.id).data('measure', cell.measure);
@@ -75,18 +66,14 @@ PivotView.include({
                         $cell.addClass('o_pivot_measure_row_sorted_' + this.sorted_column.order);
                     }
                 }
-
-                if(i== 2 && j == 18){
-                    $row.prepend($cell);
-                }else{
-                    $row.append($cell);
-                }
+                $row.append($cell);
                 $cell.toggleClass('hidden-xs', (cell.expanded !== undefined) || (cell.measure !== undefined && j < headers[i].length - this.active_measures.length));
                 if (cell.height > 1) {
                     $cell.css('padding', 0);
                 }
             }
-            $thead.append($row);
+
+        $thead.append($row);
         }
     },
 
@@ -114,7 +101,6 @@ PivotView.include({
 
             if (rows[i].indent > 0) $header.attr('title', groupby_labels[rows[i].indent - 1]);
             $header.appendTo($row);
-
             if  (this.model=='total.stock.report.forecast'){
                 rows[i].values.unshift(rows[i].values[rows[i].values.length-1]);
                         }
@@ -161,15 +147,6 @@ PivotView.include({
                 if (((j >= length - this.active_measures.length) && display_total) || i === 0){
                     $cell.css('font-weight', 'bold');
                 }
-
-
-//                if(i !=0  && j == 18){
-//                    $row.prepend($cell);
-//                }else{
-//                    $row.append($cell);
-//                }
-
-
                 $row.append($cell);
 
                 $cell.toggleClass('hidden-xs', j < length - this.active_measures.length);
@@ -177,8 +154,6 @@ PivotView.include({
             $tbody.append($row);
         }
     },
-
-
 
 //    END
 
