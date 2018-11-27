@@ -16,8 +16,9 @@ class TotalStcokReportForecast(models.Model):
     product_id = fields.Many2one('product.product', string='Product', readonly=True)
     product_tmpl_id = fields.Many2one('product.template', string='Product Template',related='product_id.product_tmpl_id', readonly=True)
     quantity = fields.Float(readonly=True)
-    s_order = fields.Char(readonly=True)
-    p_order = fields.Char(readonly=True)
+    s_order = fields.Char(readonly=True,string="SO Order")
+    cs_order = fields.Char(readonly=True, string="Confirmed SO Order")
+    p_order = fields.Char(readonly=True, string="PO Order")
     date = fields.Date('Date')
 
     @api.multi
@@ -55,6 +56,24 @@ class TotalStcokReportForecast(models.Model):
                 sl_ids = cr.fetchone()
                 s_qty = [x if x != None else 0 for x in sl_ids]
 
+                n_query = """
+                                                           SELECT
+                                                               s.name
+                                                           FROM
+                                                               sale_order_line sl
+                                                               JOIN sale_order s ON sl.order_id=s.id
+                                                           WHERE
+                                                               s.state IN ('draft','sent')
+                                                               AND sl.product_id = %s
+                                                               AND (to_char(s.date_order, 'YYYY-MM-DD') BETWEEN %s AND %s)
+                                                           """
+                self.env.cr.execute(n_query, (prod_id, d_start, d_end))
+                n_d_ids = cr.fetchall()
+                n_s = [str(x[0]) if x != None else 0 for x in n_d_ids]
+                myString = ",".join(n_s) or ''
+
+                # For Confirm
+
                 query1 = """
                              SELECT
                                  sum(sl.product_uom_qty)
@@ -84,7 +103,12 @@ class TotalStcokReportForecast(models.Model):
                 self.env.cr.execute(n_query1, (prod_id, d_start, d_end))
                 n_sl_d_ids = cr.fetchall()
                 n_sd = [str(x[0]) if x != None else 0 for x in n_sl_d_ids]
-                print("+++++++++=",n_sd)
+                myString1 = ",".join(n_sd) or ''
+
+                # if myString1 != 0:
+                #     myString =  myString + ',' + myString1
+
+                # For Purchase
 
                 query2 = """
                              SELECT
@@ -100,19 +124,38 @@ class TotalStcokReportForecast(models.Model):
                 self.env.cr.execute(query2, (prod_id, d_start, d_end))
                 pl_ids = cr.fetchone()
                 p_qty = [x if x != None else 0 for x in pl_ids]
+
+                n_query2 = """
+                               SELECT
+                                   p.name
+                                FROM
+                                     purchase_order_line pl
+                                     JOIN purchase_order p ON pl.order_id=p.id
+                                 WHERE
+                                     p.state not IN ('cancel')
+                                     AND pl.product_id = %s
+                                     AND (to_char(pl.date_planned, 'YYYY-MM-DD') BETWEEN %s AND %s)
+                            """
+                self.env.cr.execute(n_query2, (prod_id, d_start, d_end))
+                n_p_d_ids = cr.fetchall()
+                n_pd = [str(x[0]) if x != None else 0 for x in n_p_d_ids]
+                myString2 = ",".join(n_pd) or 0
+
                 d_qty = p_qty[0] - (s_qty[0] + sd_qty[0])
                 qty_available = round(qty_available + d_qty)
-                cr.execute("""INSERT INTO total_stock_report_forecast (s_order,date, product_id, quantity)
-                                                                       VALUES (%s, %s, %s,%s)""",
-                           (n_sd,d_start, prod_id, qty_available))
+
+
+                cr.execute("""INSERT INTO total_stock_report_forecast (s_order,cs_order,p_order,date, product_id, quantity)
+                                                                       VALUES (%s, %s,%s,%s,%s,%s)""",
+                           (myString,myString1,myString2,d_start, prod_id, qty_available))
 
         ir_model_data = self.env['ir.model.data']
         stock_forecast_pivot = ir_model_data.get_object_reference('stock_pivot', 'view_forecast_all_pivot')[1]
         return {'type': 'ir.actions.act_window',
                 'name': 'Stock Level forecast',
-                'view_mode': 'pivot',
                 'view_type': 'pivot',
-                'view_id': stock_forecast_pivot,
+                'view_mode': 'pivot',
+                # 'view_id': stock_forecast_pivot,
                 'res_model': 'total.stock.report.forecast',
                 'res_id': self.id,
                 }
@@ -128,13 +171,8 @@ class TotalStcokReportForecast(models.Model):
                 row['quantity'] = ''
             else:
                 if len(row.get('__domain')) == 1:
-                    cr = self.env.cr
-                    prod_id = row.get('product_id')[0]
-                    dt = datetime.strptime(datetime.now().strftime('%Y-%m-%d'), "%Y-%m-%d")
-                    dt = dt.strftime("%Y-%m-%d")
                     qty_available  = p_obj.browse(row.get('product_id')[0]).qty_available
                     row['quantity'] = qty_available
-
         return result
 
 class product_template(models.Model):
@@ -142,7 +180,6 @@ class product_template(models.Model):
 
 
     is_forecast = fields.Boolean('Is Forecast')
-
 
 
 

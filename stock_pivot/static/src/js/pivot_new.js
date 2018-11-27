@@ -17,7 +17,7 @@ PivotView.include({
 
 // START
 
-    draw_headers: function ($thead, headers) {
+  draw_headers: function ($thead, headers) {
         var self = this,
             i, j, cell, $row, $cell,$cell1;
 
@@ -25,18 +25,33 @@ PivotView.include({
             return self.fields[gb.split(':')[0]].string;
         });
 
+        //console.log(headers.length);
         for (i = 0; i < headers.length; i++) {
             $row = $('<tr>');
-            if(i ==1 &&  this.model=='total.stock.report.forecast'){
-                $row.append('<th rowspan="1" colspan="1" title="" class="" data-original-title="Date" aria-describedby="tooltip471321"></th>');
+
+            if((i == 1)  &&  this.model=='total.stock.report.forecast'){
+                $row.append('<th rowspan="1" colspan="1" title="" class="" data-original-title="KKKKKKKKKKKKK" aria-describedby="tooltip471321"></th>');
             }
-            for (j = 0; j < headers[i].length; j++) {
+
+            var innerHeaderLength = headers[i].length;
+            if(i == 2){
+                innerHeaderLength = headers[i].length-1;
+            }
+
+
+            for (j = 0; j < innerHeaderLength; j++) {
                 cell = headers[i][j];
+
+
+
                 if(this.model=='total.stock.report.forecast' && i== 0 && j ==1){
-                    var colspan = 14;
+                    var colspan = 23;
                 }else{
                     var colspan = cell.width;
                 }
+
+
+
                 $cell = $('<th>')
                 .text(cell.title)
                 .attr('rowspan', cell.height)
@@ -49,16 +64,21 @@ PivotView.include({
                     $cell.data('id', cell.id);
                 }
                 if (cell.measure) {
-                      if (this.model=='total.stock.report.forecast'){
-                          if(i== 2 && j ==0){
-                                     var txt = "QOH";
-                                }else{
 
-                                    var txt = "Stock Forecast";
-                                 }
-                      }else{
-                        var txt = this.measures[cell.measure].string;
-                      }
+
+//                      if (this.model=='total.stock.report.forecast'){
+//                          if(i== 2 && j ==0){
+//                                     var txt = "QOH";
+//                                }else{
+//
+//                                    var txt = "Stock Forecast";
+//                                 }
+//                      }else{
+//                        var txt = this.measures[cell.measure].string;
+//                      }
+
+
+                    var txt = this.measures[cell.measure].string;
                     $cell.addClass('o_pivot_measure_row text-muted')
                         .text(txt);
                     $cell.data('id', cell.id).data('measure', cell.measure);
@@ -66,16 +86,29 @@ PivotView.include({
                         $cell.addClass('o_pivot_measure_row_sorted_' + this.sorted_column.order);
                     }
                 }
-                $row.append($cell);
+
+
+                if(i== 2 && j == 18){
+                    $row.prepend($cell);
+                }else{
+                    $row.append($cell);
+                }
+
+
+
                 $cell.toggleClass('hidden-xs', (cell.expanded !== undefined) || (cell.measure !== undefined && j < headers[i].length - this.active_measures.length));
                 if (cell.height > 1) {
                     $cell.css('padding', 0);
                 }
             }
-
-        $thead.append($row);
+            $thead.append($row);
         }
     },
+
+
+
+
+
 
      draw_rows: function ($tbody, rows) {
         var self = this,
@@ -101,11 +134,28 @@ PivotView.include({
 
             if (rows[i].indent > 0) $header.attr('title', groupby_labels[rows[i].indent - 1]);
             $header.appendTo($row);
-            if  (this.model=='total.stock.report.forecast'){
-                rows[i].values.unshift(rows[i].values[rows[i].values.length-1]);
-                        }
+
+
+                rows[i].values.unshift(rows[i].values.length-1);
+
+                console.log(rows[i].values);
+
+
+//            if  (this.model=='total.stock.report.forecast'){
+//                new_array[0] = rows[i].values[rows[i].values-1];
+//                console.log("=========",new_array);
+////                new_array[0] = this_array[this_array.length-1];
+////
+////                rows[i].values.unshift(rows[i].values[rows[i].values.length-1]);
+//                        }
+
+
             for (j = 0; j < length; j++) {
+
                 value = formats.format_value(rows[i].values[j], {type: measure_types[j % nbr_measures], widget: widgets[j % nbr_measures]});
+
+
+
                 if (this.model=='total.stock.report.forecast'){
                     if (value < 0){
                       $cell = $('<td style="color:red">')
@@ -140,20 +190,37 @@ PivotView.include({
                                 .addClass('o_pivot_cell_value text-right');
                 }
 
+
+
 //                if (value==0 && i==0 && this.model=='total.stock.report.forecast'){
 //                    var value = '';
 //                  }
 
+
+
                 if (((j >= length - this.active_measures.length) && display_total) || i === 0){
                     $cell.css('font-weight', 'bold');
                 }
-                $row.append($cell);
 
+//
+//                if(i !=0  && j == 18){
+//                    $row.prepend($cell);
+//                }else{
+//                    $row.append($cell);
+//                }
+//
+
+                $row.append($cell);
                 $cell.toggleClass('hidden-xs', j < length - this.active_measures.length);
             }
+
+
+
             $tbody.append($row);
         }
     },
+
+
 
 //    END
 
