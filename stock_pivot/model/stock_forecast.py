@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import api, fields, models, tools
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta,date
 from dateutil.rrule import rrule, DAILY,WEEKLY
 
 try:
@@ -20,6 +20,7 @@ class TotalStcokReportForecast(models.Model):
     cs_order = fields.Char(readonly=True, string="Confirmed SO Order")
     p_order = fields.Char(readonly=True, string="PO Order")
     date = fields.Date('Date')
+    week = fields.Char('Week')
 
     @api.multi
     def do_open(self):
@@ -144,10 +145,12 @@ class TotalStcokReportForecast(models.Model):
                 d_qty = p_qty[0] - (s_qty[0] + sd_qty[0])
                 qty_available = round(qty_available + d_qty)
 
+                wn = dr[0].strftime("%W")
+                week = 'Week' + ' : ' + wn
 
-                cr.execute("""INSERT INTO total_stock_report_forecast (s_order,cs_order,p_order,date, product_id, quantity)
-                                                                       VALUES (%s, %s,%s,%s,%s,%s)""",
-                           (myString,myString1,myString2,d_start, prod_id, qty_available))
+                cr.execute("""INSERT INTO total_stock_report_forecast (week,s_order,cs_order,p_order,date, product_id, quantity)
+                                                                       VALUES (%s,%s, %s,%s,%s,%s,%s)""",
+                           (week,myString,myString1,myString2,d_start, prod_id, qty_available))
 
         ir_model_data = self.env['ir.model.data']
         stock_forecast_pivot = ir_model_data.get_object_reference('stock_pivot', 'view_forecast_all_pivot')[1]

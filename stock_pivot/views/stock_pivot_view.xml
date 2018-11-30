@@ -130,7 +130,8 @@
             <field eval="1" name="priority"/>
             <field name="arch" type="xml">
                 <tree string="Stock Level forecast">
-                    <field name="date"/>
+                     <field name="week"/>
+                    <field name="date" invisible="1"/>
                     <field name="product_id"/>
                     <field name="quantity"/>
                     <field name="s_order" />
