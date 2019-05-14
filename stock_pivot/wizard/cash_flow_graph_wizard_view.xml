@@ -1,0 +1,48 @@
+<odoo>
+    <data>
+
+        <record id="view_cash_flow_graph_wizard" model="ir.ui.view">
+            <field name="name">Cash Flow Report Graph</field>
+            <field name="model">cash.flow.graph.wizard</field>
+            <field name="arch" type="xml">
+                <form string="View Upload Users">
+                    <group>
+                        <h4>
+                            <p>Kindly click on "Upload Button" to Create List Users.</p>
+                        </h4>
+                    </group>
+                    <group col="4">
+                        <field name="date_from" />
+                        <field name="date_to" />
+                        <field name="report_type" widget="radio"/>
+                        <field name="date" />
+                        <field name="name" invisible="1"/>
+                    </group>
+                    <footer>
+                        <button name="action_generate_graph"
+                                string="Generate Report" type="object"
+                                class="btn-primary"/>
+                        <button string="Cancel"
+                                class="btn-default"
+                                special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_cash_flow_graph_wizard" model="ir.actions.act_window">
+            <field name="name">Graph Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">cash.flow.graph.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_cash_flow_graph_wizard"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_main_cash_flow_graph" name="Cash Flow Graph"  parent="account_reports.account_reports_legal_statements_menu" />
+
+        <menuitem id="submenu_cash_flow_report_pivot_wizard" name="Cash Flow Report Graph"  parent="menu_main_cash_flow_graph"  action="action_cash_flow_graph_wizard"/>
+
+    </data>
+</odoo>

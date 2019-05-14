@@ -1,3 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_total_stock_report_forecast_user,total.stock.report.forecast.user,model_total_stock_report_forecast,stock.group_stock_user,1,1,1,1
 access_total_stock_report_forecast_manager,total.stock.report.forecast.manager,model_total_stock_report_forecast,stock.group_stock_manager,1,1,1,1
+access_cash_flow_report_manager,cash.flow.report.manager,model_cash_flow_report_pivot,,1,1,1,1

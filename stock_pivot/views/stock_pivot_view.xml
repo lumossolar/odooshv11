@@ -21,7 +21,6 @@
             </field>
         </record>
 
-
         <!-- STOCK LEVEL FORECAST -->
 
         <record id="stock_forecast_report_pivot" model="ir.actions.server">
@@ -150,7 +149,6 @@
             <field name="view_id" ref="view_forecast_all_pivot"/>
         </record>
 
-        <!--<menuitem id="menu_stock_total_forecast" parent="stock.menu_warehouse_report"  name="Pivot Stock Forecasttt" action="action_stock_forecast_all" />-->
 
 
 

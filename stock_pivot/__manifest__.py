@@ -12,11 +12,13 @@ This module modify stock pivot view.
     'website': 'https://www.flexsin.com',
     'images' : [],
     'depends' : ['stock','product','sale','purchase'],
-    'external_dependencies': {'python': ['pandas']
+    'external_dependencies': {'python': ['pandas','arrow']
     },
 
     'data': [
         'views/stock_pivot_view.xml',
+        'views/cash_flow_pivot_view.xml',
+        'wizard/cash_flow_graph_wizard_view.xml',
         'security/ir.model.access.csv',
     ],
     'demo': [],

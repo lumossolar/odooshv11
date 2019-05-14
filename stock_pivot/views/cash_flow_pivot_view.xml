@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record id="view_cash_flow_report_pivot" model="ir.ui.view">
+            <field name="name">cash.flow.report.pivot</field>
+            <field name="model">cash.flow.report.pivot</field>
+            <field name="arch" type="xml">
+                <pivot string="Cash Flow Report Pivot"    >
+                    <field name="name" type="row"/>
+                    <field name="amount" type="measure" widget="char"/>
+                    <field name="unfoldable" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record model="ir.actions.server" id="graph_action_server">
+            <field name="name">test server</field>
+            <field name="model_id" ref="model_cash_flow_report_pivot"/>
+            <field name="code">action = model.do_open_cash_flow()</field>
+        </record>
+
+        <!--<menuitem id="menumain_cash_flow" name="Cash Flow Graph"  parent="account_reports.account_reports_legal_statements_menu" />-->
+
+        <!--<menuitem id="graphmenu" name="Cash Flow Report"  parent="menumain_cash_flow"  action="graph_action_server"/>-->
+
+        <record id="view_cash_flow_report_pivot_search" model="ir.ui.view">
+            <field name="name">cash.flow.report.pivot.search</field>
+            <field name="model">cash.flow.report.pivot</field>
+            <field name="arch" type="xml">
+                <search string="Cash Flow Report Pivot">
+                    <field name="name"/>
+                    <field name="parent_id"/>
+                    <field name="level"/>
+                    <field name="amount"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_cash_flow_report_graph" model="ir.ui.view">
+            <field name="name">cash.flow.report.graph</field>
+            <field name="model">cash.flow.report.pivot</field>
+            <field name="arch" type="xml">
+                <graph string="Cash Flow Report Pivot">
+                    <field name="name"  type="row"/>
+                    <field name="parent_id" />
+                    <field name="level"/>
+                    <field name="amount" type="measure"/>
+                    <!--<field name="unfoldable" type="measure"/>-->
+                </graph>
+            </field>
+        </record>
+
+        <record id="view_cash_flow_report_form" model="ir.ui.view">
+            <field name="name">cash.flow.report.pivot.form</field>
+            <field name="model">cash.flow.report.pivot</field>
+            <field eval="1" name="priority"/>
+            <field name="arch" type="xml">
+                <form string="Cash Flow Report Pivot">
+                    <sheet>
+                        <group name="main_grp_col1">
+                            <field name="name" />
+                            <field name="parent_id" />
+                            <field name="level"/>
+                            <field name="amount"/>
+                            <field name="unfoldable"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_cash_flow_report_tree" model="ir.ui.view">
+            <field name="name">cash.flow.report.pivot.tree</field>
+            <field name="model">cash.flow.report.pivot</field>
+            <field eval="1" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Cash Flow Report Pivot" colors="red:level=='1';green:level=='2';blue:level=='1'">
+                    <field name="name" />
+                    <field name="parent_id" />
+                    <field name="level"/>
+                    <field name="amount"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_cash_flow_report_pivot" model="ir.actions.act_window">
+            <field name="name">Cash Flow Report Pivot</field>
+            <field name="res_model">cash.flow.report.pivot</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">pivot,tree,form,graph</field>
+            <field name="search_view_id" ref="view_cash_flow_report_pivot_search"/>
+        </record>
+
+        <!--<menuitem id="submenu_cash_flow_report_pivot_manual" name="Cash Flow Report Pivot Manual"  parent="menumain_cash_flow"  action="action_cash_flow_report_pivot"/>-->
+
+    </data>
+</openerp>

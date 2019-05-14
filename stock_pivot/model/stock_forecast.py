@@ -181,8 +181,9 @@ class TotalStcokReportForecast(models.Model):
 class product_template(models.Model):
     _inherit = "product.template"
 
-
     is_forecast = fields.Boolean('Is Forecast')
+
+
 
 
 
