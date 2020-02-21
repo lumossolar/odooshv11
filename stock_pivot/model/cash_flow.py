@@ -26,7 +26,3 @@ class CashFlowReportPivot(models.Model):
 
 
 
-
-
-
-
