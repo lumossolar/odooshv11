@@ -12,6 +12,8 @@ This module modify stock pivot view.
     'website': 'https://www.flexsin.com',
     'images' : [],
     'depends' : ['stock','product','sale','purchase'],
+    'external_dependencies': {'python': ['pandas','arrow']
+    },
     'data': [
         'views/stock_pivot_view.xml',
         'views/sale_views.xml',
