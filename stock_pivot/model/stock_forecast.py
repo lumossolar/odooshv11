@@ -25,6 +25,7 @@ class TotalStcokReportForecast(models.Model):
 
     @api.multi
     def do_open(self):
+        print 'testinggggggggggggggg'
         cr = self.env.cr
         self.env.cr.execute("""DELETE FROM total_stock_report_forecast;""")
         is_forecast = 't'
@@ -191,7 +192,7 @@ class TotalStcokReportForecast(models.Model):
                 cr.execute("""INSERT INTO total_stock_report_forecast (week,s_order,cs_order,p_order,date, product_id, quantity)
                                                                        VALUES (%s,%s, %s,%s,%s,%s,%s)""",
                            (week, myString, myString1, myString2, d_start, prod_id, qty_available + round(sm_qty[0])))
-
+                print'aaaaaaaaaaaaaaaaaa'
         ir_model_data = self.env['ir.model.data']
         stock_forecast_pivot = ir_model_data.get_object_reference('stock_pivot', 'view_forecast_all_pivot')[1]
         return {'type': 'ir.actions.act_window',
@@ -203,23 +204,24 @@ class TotalStcokReportForecast(models.Model):
                 'res_id': self.id,
                 }
 
-    @api.model
-    def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
-        result = super(TotalStcokReportForecast, self.with_context(virtual_id=False)).read_group(domain, fields,
-                                                                                                 groupby, offset=offset,
-                                                                                                 limit=limit,
-                                                                                                 orderby=orderby,
-                                                                                                 lazy=lazy)
-
-        p_obj = self.env['product.product']
-        for row in result:
-            if not row.get('product_id'):
-                row['quantity'] = ''
-            else:
-                if len(row.get('__domain')) == 1:
-                    qty_available = p_obj.browse(row.get('product_id')[0]).qty_available
-                    row['quantity'] = qty_available
-        return result
+    # @api.model
+    # def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
+    #     result = super(TotalStcokReportForecast, self.with_context(virtual_id=False)).read_group(domain, fields,
+    #                                                                                              groupby, offset=offset,
+    #                                                                                              limit=limit,
+    #                                                                                              orderby=orderby,
+    #                                                                                              lazy=lazy)
+    #
+    #     p_obj = self.env['product.product']
+    #     for row in result:
+    #         if not row.get('product_id'):
+    #             row['quantity'] = ''
+    #         else:
+    #             if len(row.get('__domain')) == 1:
+    #                 qty_available = p_obj.browse(row.get('product_id')[0]).qty_available
+    #                 row['quantity'] = qty_available
+    #     print 'vvvvvvvvvvvvvvvvvvvvvvvv',result
+    #     return result
 
 
 class product_template(models.Model):
