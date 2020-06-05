@@ -191,7 +191,6 @@ class TotalStcokReportForecast(models.Model):
                 cr.execute("""INSERT INTO total_stock_report_forecast (week,s_order,cs_order,p_order,date, product_id, quantity)
                                                                        VALUES (%s,%s, %s,%s,%s,%s,%s)""",
                            (week, myString, myString1, myString2, d_start, prod_id, qty_available + round(sm_qty[0])))
-
         ir_model_data = self.env['ir.model.data']
         stock_forecast_pivot = ir_model_data.get_object_reference('stock_pivot', 'view_forecast_all_pivot')[1]
         return {'type': 'ir.actions.act_window',
@@ -226,9 +225,4 @@ class product_template(models.Model):
     _inherit = "product.template"
 
     is_forecast = fields.Boolean('Is Forecast')
-
-
-
-
-
 
