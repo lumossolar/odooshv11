@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <record model="ir.ui.view" id="product_template__form_view1">
+        <field name="name">product.template</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='group_lots_and_weight']" position="inside">
+                <label for="height" attrs="{'invisible':[('type', 'not in', ['product', 'consu'])]}"/>
+                    <div class="o_row" name="height" attrs="{'invisible':[('type', 'not in', ['product', 'consu'])]}">
+                        <field name="height" string="Height"/>
+                    </div>
+
+                <label for="width" attrs="{'invisible':[('type', 'not in', ['product', 'consu'])]}"/>
+                    <div class="o_row" name="width" attrs="{'invisible':[('type', 'not in', ['product', 'consu'])]}">
+                        <field name="width" string="Width"/>
+                    </div>
+
+                <label for="length" attrs="{'invisible':[('type', 'not in', ['product', 'consu'])]}"/>
+                    <div class="o_row" name="length" attrs="{'invisible':[('type', 'not in', ['product', 'consu'])]}">
+                        <field name="length" string="Length"/>
+                    </div>
+            </xpath>
+        </field>
+    </record>
+</openerp>
