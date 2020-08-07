@@ -29,11 +29,11 @@
                         <field name="product_dimensions_line" attrs="{'readonly':[('state','!=','draft')]}">
                             <tree string="Product Details" editable="true">
                                 <field name="product_id"/>
-                                <field name="height"/>
-                                <field name="width"/>
                                 <field name="length"/>
-                                <field name="volume" />
-                                <field name="weight"/>
+                                <field name="width"/>
+                                <field name="height"/>
+                                <field name="weight" />
+                                <field name="volume"/>
                             </tree>
                         </field>
                     </page>
