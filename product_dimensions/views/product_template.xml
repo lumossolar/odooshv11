@@ -21,7 +21,21 @@
                     <div class="o_row" name="height" attrs="{'invisible':[('type', 'not in', ['product', 'consu'])]}">
                         <field name="height" string="Height"/>
                     </div>
+
+
             </xpath>
+            <xpath expr="//field[@name='volume']" position="replace">
+            </xpath>
+            <xpath expr="//label[@for='volume']" position="replace">
+            </xpath>
+
+            <xpath expr="//field[@name='tracking']" position="before">
+                <label for="volume" attrs="{'invisible':[('type', 'not in', ['product', 'consu'])]}"/>
+                    <div class="o_row" name="volume" attrs="{'invisible':[('type', 'not in', ['product', 'consu'])]}">
+                        <field name="volume" string="Volume"/>
+                    </div>
+            </xpath>
+
         </field>
     </record>
 </openerp>
