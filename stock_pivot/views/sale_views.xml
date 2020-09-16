@@ -5,7 +5,7 @@
             <field name="model">sale.order</field>
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//notebook/page/group/group" position="after">
+                <xpath expr="//notebook/page[@name='other_information']/group" position="inside">
 
                     <group>
                         <separator string="Probability(%) for Forecasting"/>

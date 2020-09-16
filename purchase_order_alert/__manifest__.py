@@ -2,17 +2,18 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 {
-    'name': 'Product Dimensions',
+    'name': 'Purchase Order Alert',
     'summary': '',
     'description': """
 ===============================
     """,
     'website': 'https://www.flexsin.com',
-    'depends': ['stock'],
+    'depends': ['purchase'],
     'category': 'Custom Dev',
     'data': [
-        'views/product_dimensions.xml',
-        'views/product_template.xml',
+        'views/purchase_order_alert.xml',
+        'views/alert_config.xml',
+        'views/sequence_view.xml',
         'security/for_security.xml',
         'security/ir.model.access.csv',
     ],

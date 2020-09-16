@@ -1,5 +1,6 @@
 odoo.define('stock_pivot.pivot', function (require){
 "use strict";
+alert("*************************")
 var config = require('web.config');
 var PivotView = require('web.PivotView');
 var core = require('web.core');
@@ -18,6 +19,7 @@ PivotView.include({
 // START
 
     draw_headers: function ($thead, headers) {
+    alert("*************************")
         var self = this,
             i, j, cell, $row, $cell,$cell1;
 
@@ -27,6 +29,10 @@ PivotView.include({
 
         for (i = 0; i < headers.length; i++) {
             $row = $('<tr>');
+            if(i ==1 &&  this.model=='total.stock.report.forecast'){
+//                $row.append('<th rowspan="1" colspan="1" string="vikas" title="" class="" data-original-title="Date" aria-describedby="tooltip471321"></th>');
+            }
+
 
             for (j = 0; j < headers[i].length; j++) {
                 cell = headers[i][j];
@@ -79,7 +85,7 @@ PivotView.include({
         }
     },
 
-     draw_rows: function ($tbody, rows) {
+    draw_rows: function ($tbody, rows) {
         var self = this,
             i, j, value, $row, $cell, $header,
             nbr_measures = this.active_measures.length,
@@ -103,7 +109,9 @@ PivotView.include({
 
             if (rows[i].indent > 0) $header.attr('title', groupby_labels[rows[i].indent - 1]);
             $header.appendTo($row);
-
+            if  (this.model=='total.stock.report.forecast'){
+//                rows[i].values.unshift(rows[i].values[rows[i].values.length-1]);
+                        }
             for (j = 0; j < length; j++) {
                 value = formats.format_value(rows[i].values[j], {type: measure_types[j % nbr_measures], widget: widgets[j % nbr_measures]});
                 if (this.model=='total.stock.report.forecast'){
@@ -115,7 +123,6 @@ PivotView.include({
                             .text(value)
                             .addClass('o_pivot_cell_value text-right');
                       }
-
                     else if (value == 0 && i==0){
                        var value = '';
                        $cell = $('<td>')
@@ -132,15 +139,6 @@ PivotView.include({
                             .text(value)
                              .addClass('o_pivot_cell_value text-right');
                        }
-                    if (i==0){
-                       var value = '';
-                       $cell = $('<td>')
-                            .data('id', rows[i].id)
-                            .data('col_id', rows[i].col_ids[Math.floor(j / nbr_measures)])
-                            .toggleClass('o_empty', !value)
-                            .text('')
-                            .addClass('o_pivot_cell_value text-right');
-                     }
                 }else{
                      $cell = $('<td>')
                                 .data('id', rows[i].id)

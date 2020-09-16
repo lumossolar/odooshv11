@@ -1,16 +1,14 @@
 <odoo>
-    <record id="email_template_sale_order" model="mail.template">
-            <field name="name">Sale Order</field>
-            <field name="email_from">${(object.user_id.email and '%s &lt;%s&gt;' %      (object.user_id.name, object.user_id.email) or '')|safe}</field>
-            <field name="subject">NOTICE! Sales Order (Ref ${object.name or 'n/a'}) has been created in Odoo on date ${(object.confirmation_date.split('-')[2]).split(' ')[0] + '-' + object.confirmation_date.split('-')[1] + '-' + object.confirmation_date.split('-')[0]}</field>
+    <data>
+        <record id="email_template_sale_order_testing" model="mail.template">
+            <field name="name">Sale Order Testing</field>
+            <field name="email_from">${(object.user_id.email and '%s &lt;%s&gt;' % (object.user_id.name, object.user_id.email) or '')|safe}</field>
+            <field name="subject">NOTICE! Sales Order (Ref ${object.name or 'n/a'}) has been created in Odoo on date ${object.date_order or 'n/a'}</field>
             <field name="model_id" ref="sale.model_sale_order"/>
-            <field name="lang">${object.partner_id.lang}</field>
             <field name="auto_delete" eval="True"/>
             <field name="body_html"><![CDATA[
-                 Sales Order (Ref ${object.name or 'n/a'}) has been created in Odoo on date
-                 ${(object.confirmation_date.split('-')[2]).split(' ')[0] + '-' + object.confirmation_date.split('-')[1] + '-' + object.confirmation_date.split('-')[0]}
-                 for ${object.partner_id.name or 'n/a'}
-            ]]></field>
+                 Sales Order (Ref ${object.name or 'n/a'}) has been created in Odoo on date ${object.date_order or 'n/a'} for ${object.partner_id.name or 'n/a'} ]]></field>
         </record>
-
+    </data>
 </odoo>
+

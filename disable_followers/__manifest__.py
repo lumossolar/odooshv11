@@ -4,10 +4,7 @@
 {
     'name': 'Disable Automatic Followers on Sale Orders',
     'summary': '',
-    'description': """
-Disable Automatic Followers on Sale Orders Confirm
-===============================
-    """,
+    'description': "Disable Automatic Followers on Sale Orders Confirm",
     'website': 'https://www.flexsin.com',
     'depends': ['sale','mail'],
     'category': 'Custom Dev',

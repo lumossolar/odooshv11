@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_for_alert_config,alert.config,model_alert_config,purchase_order_alert.group_purchase_order_alert,1,1,1,1
+access_for_alert_config_line,alert.config.line,model_alert_config_line,purchase_order_alert.group_purchase_order_alert,1,1,1,1
+access_for_purchaseorder_alert,purchaseorder.alert,model_purchaseorder_alert,purchase_order_alert.group_purchase_order_alert,1,1,1,1
+access_for_purchaseorder_alert_line,purchaseorder.alert.line,model_purchaseorder_alert_line,purchase_order_alert.group_purchase_order_alert,1,1,1,1
