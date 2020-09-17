@@ -5,6 +5,7 @@ from datetime import date
 class PurchaseorderAlert(models.Model):
     _name = 'purchaseorder.alert'
     _order = 'id desc'
+    _description = "Purchase Order Alert"
 
     def action_done(self):
         for val in self:
@@ -62,6 +63,7 @@ class PurchaseorderAlert(models.Model):
 
 class PurchaseorderAlertLine(models.Model):
     _name = 'purchaseorder.alert.line'
+    _description = "Purchase Order Alert Line"
 
     def action_done(self):
         for val in self:

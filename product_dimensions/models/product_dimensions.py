@@ -2,6 +2,7 @@ from odoo import fields, models
 
 class ProductDimensions(models.Model):
     _name = 'product.dimensions'
+    _description = "Product Dimension"
 
     def action_done(self):
         for val in self:
@@ -25,6 +26,7 @@ class ProductDimensions(models.Model):
 
 class ProductDimensionsLine(models.Model):
     _name = 'product.dimensions.line'
+    _description = "Product Dimension Line"
 
     line_id = fields.Many2one('product.dimensions','Id')
     product_id = fields.Many2one('product.product','Product')
