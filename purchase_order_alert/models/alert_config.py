@@ -3,6 +3,7 @@ from odoo.addons import decimal_precision as dp
 class AlertConfig(models.Model):
     _name = 'alert.config'
     _order = 'id desc'
+    _description = "Alert Config"
 
     def _get_default_product_uom_id(self):
         return self.env['uom.uom'].search([], limit=1, order='id').id
@@ -33,6 +34,7 @@ class AlertConfig(models.Model):
 
 class AlertConfigLine(models.Model):
     _name = 'alert.config.line'
+    _description = "Alert Config Line"
 
     def _get_default_product_uom_id(self):
         return self.env['uom.uom'].search([], limit=1, order='id').id
