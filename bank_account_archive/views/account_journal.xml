@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="res_bank_account_form_view">
+        <field name="name">account.journal.form</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_bank_journal_form"/>
+        <field name="arch" type="xml">
+
+            <div class="oe_title" position="before">
+                <div class="oe_button_box" name="button_box">
+                    <button name="toggle_active" type="object"
+                        class="oe_stat_button" icon="fa-archive">
+                        <field name="active" widget="boolean_button"
+                            options='{"terminology": "archive"}'/>
+                    </button>
+                </div>
+            </div>
+
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="res_bank_account_search_view">
+        <field name="name">account.journal.form.search</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_search"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <separator/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="res_journal_form_view">
+        <field name="name">account.journal.form</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form"/>
+        <field name="arch" type="xml">
+
+            <div class="oe_title" position="before">
+                <div class="oe_button_box" name="button_box">
+                    <button name="toggle_active" type="object"
+                        class="oe_stat_button" icon="fa-archive">
+                        <field name="active" widget="boolean_button"
+                            options='{"terminology": "archive"}'/>
+                    </button>
+                </div>
+            </div>
+
+        </field>
+    </record>
+</odoo>
