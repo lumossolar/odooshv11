@@ -9,7 +9,7 @@ Mail on sale order confirm
 ===============================
     """,
     'website': 'https://www.flexsin.com',
-    'depends': ['sale_management','sale'],
+    'depends': ['sale'],
     'category': 'Custom Dev',
     'data': [
         # 'security/ir.model.access.csv',
