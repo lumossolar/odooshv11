@@ -29,11 +29,11 @@ class SaleOrder(models.Model):
             template = self.env.ref('mail_onsale_confirm.email_template_sale_order_testing')
         except ValueError:
             template = False
-        # template.email_to = 'anita@lumossolar.com,brian@lumossolar.com,dinesh@lumossolar.com,gea@lumossolar.com,keith@lumossolar.com,ryan@lumossolar.com,scott@lumossolar.com'
-        template.email_to = 'shakyavikas77@gmail.com'
+        template.email_to = 'anita@lumossolar.com,brian@lumossolar.com,dinesh@lumossolar.com,gea@lumossolar.com,keith@lumossolar.com,ryan@lumossolar.com,scott@lumossolar.com'
+        # template.email_to = 'shakyavikas77@gmail.com'
 
-        # template.email_from = 'lumosodooconfirmation@lumossolar.com'
-        template.email_from = 'testingodoo18@gmail.com'
+        template.email_from = 'lumosodooconfirmation@lumossolar.com'
+        # template.email_from = 'testingodoo18@gmail.com'
         # Send out the e-mail template to the user
         self.env['mail.template'].browse(template.id).send_mail(self.id)
         return True
