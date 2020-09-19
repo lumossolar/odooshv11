@@ -15,9 +15,9 @@ This module modify stock pivot view.
     'external_dependencies': {'python': ['pandas','arrow']
     },
     'data': [
-        # 'views/stock_pivot_view.xml',
-        # 'views/sale_views.xml',
-        # 'security/ir.model.access.csv',
+        'views/stock_pivot_view.xml',
+        'views/sale_views.xml',
+        'security/ir.model.access.csv',
     ],
     'demo': [],
     'qweb': [
