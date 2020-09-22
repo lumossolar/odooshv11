@@ -15,7 +15,7 @@ class TotalStcokReportForecast(models.Model):
 
     product_id = fields.Many2one('product.product', string='Product', readonly=True)
     product_tmpl_id = fields.Many2one('product.template', string='Product Template',related='product_id.product_tmpl_id', readonly=True)
-    quantity = fields.Float(readonly=True)
+    quantity = fields.Float('Stock Forecast',readonly=True)
     date = fields.Date('Date')
 
     s_order = fields.Char(readonly=True, string="SO")
@@ -23,7 +23,7 @@ class TotalStcokReportForecast(models.Model):
     p_order = fields.Char(readonly=True, string="PO")
     week = fields.Char('Week')
 
-    @api.multi
+
     def do_open(self):
         cr = self.env.cr
         self.env.cr.execute("""DELETE FROM total_stock_report_forecast;""")
@@ -95,7 +95,7 @@ class TotalStcokReportForecast(models.Model):
                              WHERE
                                  s.state IN ('sale')
                                  AND sl.product_id = %s
-                                 AND (to_char(s.confirmation_date, 'YYYY-MM-DD') BETWEEN %s AND %s)
+                                 AND (to_char(s.date_order, 'YYYY-MM-DD') BETWEEN %s AND %s)
                              """
                 self.env.cr.execute(query1, (prod_id, d_start, d_end))
                 sl_d_ids = cr.fetchone()
@@ -110,7 +110,7 @@ class TotalStcokReportForecast(models.Model):
                                             WHERE
                                                 s.state IN ('sale')
                                                 AND sl.product_id = %s
-                                                AND (to_char(s.confirmation_date, 'YYYY-MM-DD') BETWEEN %s AND %s)
+                                                AND (to_char(s.date_order, 'YYYY-MM-DD') BETWEEN %s AND %s)
                                             """
                 self.env.cr.execute(n_query1, (prod_id, d_start, d_end))
                 n_sl_d_ids = cr.fetchall()
@@ -202,24 +202,23 @@ class TotalStcokReportForecast(models.Model):
                 'res_id': self.id,
                 }
 
-    # @api.model
-    # def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
-    #     result = super(TotalStcokReportForecast, self.with_context(virtual_id=False)).read_group(domain, fields,
-    #                                                                                              groupby, offset=offset,
-    #                                                                                              limit=limit,
-    #                                                                                              orderby=orderby,
-    #                                                                                              lazy=lazy)
-    #
-    #     p_obj = self.env['product.product']
-    #     for row in result:
-    #         if not row.get('product_id'):
-    #             row['quantity'] = ''
-    #         else:
-    #             if len(row.get('__domain')) == 1:
-    #                 qty_available = p_obj.browse(row.get('product_id')[0]).qty_available
-    #                 row['quantity'] = qty_available
-    #     print 'vvvvvvvvvvvvvvvvvvvvvvvv',result
-    #     return result
+    @api.model
+    def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
+        result = super(TotalStcokReportForecast, self.with_context(virtual_id=False)).read_group(domain, fields,
+                                                                                                 groupby, offset=offset,
+                                                                                                 limit=limit,
+                                                                                                 orderby=orderby,
+                                                                                                 lazy=lazy)
+
+        p_obj = self.env['product.product']
+        for row in result:
+            if not row.get('product_id'):
+                row['quantity'] = ''
+            else:
+                if len(row.get('__domain')) == 1:
+                    qty_available = p_obj.browse(row.get('product_id')[0]).qty_available
+                    row['quantity'] = qty_available
+        return result
 
 
 class product_template(models.Model):
