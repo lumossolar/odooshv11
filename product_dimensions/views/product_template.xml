@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<openerp>
+<odoo>
     <record model="ir.ui.view" id="product_template__form_view1">
         <field name="name">product.template</field>
         <field name="model">product.template</field>
@@ -38,4 +38,4 @@
 
         </field>
     </record>
-</openerp>
+</odoo>

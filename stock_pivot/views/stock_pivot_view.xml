@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<openerp>
-    <data>
-
-
-        <template id="assets_backend" name="nrda_dsc assets" inherit_id="web.assets_backend">
+<odoo>
+        <template id="assets_backend" name="nrda_dsc assets1" inherit_id="web.assets_backend">
             <xpath expr="." position="inside">
-                <script type="text/javascript" src="/stock_pivot/static/src/js/pivot.js"></script>
+                <script type="text/javascript" src="/stock_pivot/static/src/js/pivot.js"/>
             </xpath>
         </template>
+
 
         <record id="view_forecast_all_pivot" model="ir.ui.view">
             <field name="name">total.stock.report.forecast.pivot</field>
@@ -16,7 +14,7 @@
                 <pivot string="Stock Level forecast"    >
                     <field name="product_id" type="row"/>
                     <field name="date"  interval="week" type="col"/>
-                    <field name="quantity" type="measure" widget="char"/>
+                    <field name="quantity" type="measure"/>
                 </pivot>
             </field>
         </record>
@@ -85,7 +83,7 @@
         <record id="action_stock_forecast_all" model="ir.actions.act_window">
             <field name="name">Stock Level Forecast</field>
             <field name="res_model">total.stock.report.forecast</field>
-            <field name="view_type">form</field>
+            <!-- <field name="view_type">form</field> -->
             <field name="view_mode">pivot,tree</field>
             <field name="search_view_id" ref="view_stock_forecast_all_search"/>
             <field name="view_id" ref="view_forecast_all_pivot"/>
@@ -103,14 +101,14 @@
             <field name="code">action=model.do_open()</field>
         </record>
 
-        <record id="act_stock_forecast_report_pivot" model="ir.values">
+        <!--<record id="act_stock_forecast_report_pivot" model="ir.values">
             <field name="model_id" ref="model_total_stock_report_forecast" />
             <field name="name">Stock Forecast</field>
             <field name="key2">client_action_multi</field>
             <field eval="'ir.actions.server,%d'%stock_forecast_report_pivot" name="value"/>
             <field name="key">action</field>
             <field name="model">total.stock.report.forecast</field>
-        </record>
+        </record> -->
 
         <menuitem id="menu_stock_forecast_report" name="Stock Forecast" groups="stock.group_stock_user" parent="stock.menu_stock_root" />
 
@@ -139,6 +137,4 @@
                 </xpath>
             </field>
         </record>
-
-    </data>
-</openerp>
+</odoo>

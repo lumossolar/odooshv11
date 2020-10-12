@@ -1,5 +1,6 @@
 odoo.define('stock_pivot.pivot', function (require){
 "use strict";
+alert("*************************")
 var config = require('web.config');
 var PivotView = require('web.PivotView');
 var core = require('web.core');
@@ -18,6 +19,7 @@ PivotView.include({
 // START
 
     draw_headers: function ($thead, headers) {
+    alert("*************************")
         var self = this,
             i, j, cell, $row, $cell,$cell1;
 
@@ -83,7 +85,7 @@ PivotView.include({
         }
     },
 
-     draw_rows: function ($tbody, rows) {
+    draw_rows: function ($tbody, rows) {
         var self = this,
             i, j, value, $row, $cell, $header,
             nbr_measures = this.active_measures.length,
