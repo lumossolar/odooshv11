@@ -1,3 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_for_product_dimensions,product.dimensions,model_product_dimensions,product_dimensions.group_product_dimensions,1,1,1,1
-access_for_product_dimensions_line,product.dimensions.line,model_product_dimensions_line,product_dimensions.group_product_dimensions,1,1,1,1
