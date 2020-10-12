@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_alert_config_form" model="ir.ui.view">
+        <field name="name">alert.config.form</field>
+        <field name="model">alert.config</field>
+        <field name="arch" type="xml">
+            <form string="Alert Configuration">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                            <button name="toggle_active" type="object"
+                                    class="oe_stat_button" icon="fa-archive">
+                                <field name="active" widget="boolean_button"
+                                    options='{"terminology": "archive"}'/>
+                            </button>
+                        </div>
+
+                    <group>
+                        <group>
+                            <field name="product_tmpl_id" context="{'default_type': 'product'}"/>
+                            <!--<field name="product_id" groups="product.group_product_variant" context="{'default_type': 'product'}"/> -->
+                            <label for="product_qty" string="Quantity"/>
+                            <div class="o_row">
+                                <field name="product_qty"/>
+                                <field name="product_uom_id" options="{'no_open':True,'no_create':True}"/>
+                            </div>
+                        </group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="To be Purchase">
+                            <field name="alert_config_line" widget="one2many_list">
+                                <tree string="Components" editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_id" context="{'default_type': 'product'}"/>
+                                    <field name="product_qty"/>
+                                    <field name="product_uom_id" options="{'no_open':True,'no_create':True}"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+        <record id="view_alert_config_tree" model="ir.ui.view">
+        <field name="name">alert.config.tree</field>
+        <field name="model">alert.config</field>
+        <field name="arch" type="xml">
+            <tree string="purchaseorder alert">
+                <field name="product_tmpl_id"/>
+            </tree>
+        </field>
+    </record>
+
+        <record id="action_alert_config" model="ir.actions.act_window">
+            <field name="name">Alert Configuration</field>
+            <field name="res_model">alert.config</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_alert_config_tree"/>
+        </record>
+
+        <menuitem id="menu_alert_config" name="Purchase Alert Configuration" parent="purchase.menu_purchase_config" action="action_alert_config"/>
+    </data>
+</odoo>
