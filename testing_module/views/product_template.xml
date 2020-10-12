@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <record model="ir.ui.view" id="product_template__form_view2">
+        <field name="name">product.template</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='tracking']" position="after">
+                        <field name="custom_field"/>
+            </xpath>
+
+        </field>
+    </record>
+</openerp>
