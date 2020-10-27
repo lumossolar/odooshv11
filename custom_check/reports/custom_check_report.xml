@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<report id="custom_check_report"
+			string="Check Print"
+			model="account.payment"
+			report_type="qweb-pdf"
+			file="custom_check.custom_check_report_new"
+			name="custom_check.custom_check_report_new" menu="True"/>
+
+<!--		<template id="custom_check_view">-->
+<!--     	<xpath expr="//style" position="after">-->
+<!--     		<style type="text/css" >-->
+<!--                    .tabla {-->
+<!--                        cellpadding: 10;-->
+<!--                        border: 1px solid black;-->
+<!--                    }-->
+<!--            </style>-->
+<!--        </xpath>-->
+<!--  		</template>-->
+
+<!--   		<record id="paperformat_report_custom_check" model="report.paperformat">-->
+<!--        	<field name="name">Custom Check</field>-->
+<!--           	<field name="orientation">Portrait</field>-->
+<!--           	<field name="margin_bottom">0</field>-->
+<!--            <field name="margin_top">0</field>-->
+<!--			<field name="margin_left">0</field>-->
+<!--			<field name="margin_right">0</field>-->
+<!--			<field name="header_spacing">0</field>-->
+<!--    		</record>-->
+<!--        <record id="custom_check_report" model="ir.actions.report">-->
+<!--        	<field name="paperformat_id" ref="paperformat_report_custom_check"/>-->
+<!--    	</record>-->
+
+
+	</data>
+</odoo>
