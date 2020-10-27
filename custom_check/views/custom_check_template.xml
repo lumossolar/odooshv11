@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<template id="custom_check_report_new">
+			<t t-call="web.html_container">
+				<t t-foreach="docs" t-as="o">
+					<div t-att-data-oe-model="o._name" t-att-data-oe-id="o.id" t-foreach="o._check_get_pages()" t-as="page" class="page article ckus_page ckus_top_page" t-attf-style="top: {{ o.company_id.account_check_printing_margin_top }}in; left: {{ o.company_id.account_check_printing_margin_left }}in;">
+						<style>
+							.ckus_date_1{
+								top: 0.35in;
+								left: 7.65in;
+								width: 1.47in;
+								text-align: center;
+							}
+							.ckus_payee_name_1 {
+								top: 1.05in;
+								left: 0.85in;
+								width: 4.0in;
+								text-align: left;
+							}
+							.ckus_payee_address_1 {
+								top: 1.80in;
+								left: 0.85in;
+								width: 4.0in;
+								text-align: left;
+							}
+							.ckus_amount_1 {
+								top: 1.05in;
+								left: 7.9in;
+						 		width: 1.47in;
+								text-align: left;
+							}
+							.ckus_amount_in_word_1 {
+								top: 1.45in;
+								left: 0.25in;
+								width: 7in;
+								text-align: left;
+								font-weight: bold;
+								overflow: hidden;
+							}
+							.ckus_memo_1 {
+								top: 2.80in;
+								left: 0.65in;
+								width: 2.9in;
+								text-align: left;
+								font-size: 0.9em;
+								overflow: hidden;
+							}
+			</style>
+			<div class="ckus_check">
+				<div class="sequence_number" t-if="page['sequence_number']" t-esc="page['sequence_number']"/>
+				<div class="ckus_date_1" t-esc="page['payment_date']"/>
+				<div class="ckus_payee_name_1" t-esc="page['partner_name']"/>
+				<div class="ckus_amount_1">
+					<t t-if="isinstance(page['amount'], float)"><t t-esc="page['amount']"/></t>
+					<t t-if="isinstance(page['amount'], str)"><t t-esc="page['amount']"/></t>
+				</div>
+				<div class="ckus_amount_in_word_1" t-esc="page['amount_in_word']"/>
+				<!-- <t t-set="partner" t-value="env['res.partner'].search([('name', '=', page['partner_name'])])"/> -->
+				<div class="ckus_payee_address_1">
+					<div t-esc="o.partner_id.name"/>
+					<span t-esc="o.partner_id.street"/> <span t-esc="o.partner_id.street2"/> <br/>
+					<span t-esc="o.partner_id.city"/> <span t-esc="o.partner_id.state_id.name"/>
+					<span t-esc="o.partner_id.zip"/><br/>
+				</div>
+				<div class="ckus_memo_1" t-esc="page['memo']"/>
+			</div>
+			<div style="top:3.5in;">
+				<t t-call="l10n_us_check_printing.ckus_stub"><t t-set="stub_num" t-value="1"/></t>
+			</div>
+			<div style="top:7.0in;">
+				<t t-call="l10n_us_check_printing.ckus_stub"><t t-set="stub_num" t-value="2"/></t>
+			</div>
+		</div>
+				</t>
+			</t>
+		</template>
+	</data>
+</odoo>
