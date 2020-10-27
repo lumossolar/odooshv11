@@ -12,6 +12,7 @@
     'depends' : ['product'],
     'data': ['reports/custom_check_report.xml',
                 'views/custom_check_template.xml',
+                'views/inherit_print_check_top.xml',
     ],
     'demo': [],
     'qweb': [
